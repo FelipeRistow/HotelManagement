@@ -1,26 +1,36 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class Reservation {
-    private int id;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
-    private ReservationStatus status;
-    private Room room;
+    private Client client;
+    private String status;
+    private String room;
 
-    public Reservation(int id, LocalDate checkInDate, LocalDate checkOutDate, ReservationStatus status, Room room) {
-        setId(id);
+    public Reservation(LocalDate checkInDate, LocalDate checkOutDate, String room) throws SQLException {
         setCheckInDate(checkInDate);
         setCheckOutDate(checkOutDate);
-        setStatus(status);
         setRoom(room);
+        setStatus("CONFIRMED");
+        Connection connection = DatabaseManager.getConnection();
+        String sql = "INSERT INTO reservation (checkin_date, checkout_date, status) VALUES (?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, String.valueOf(checkInDate));
+        preparedStatement.setString(2, String.valueOf(checkOutDate));
+        preparedStatement.setString(3, room);
+        preparedStatement.setString(4, "CONFIRMED");
+        preparedStatement.executeUpdate();
     }
 
-    public int getId() {
-        return id;
+    public String getStatus() {
+        return status;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public LocalDate getCheckInDate() {
@@ -39,19 +49,11 @@ public class Reservation {
         this.checkOutDate = checkOutDate;
     }
 
-    public ReservationStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ReservationStatus status) {
-        this.status = status;
-    }
-
-    public Room getRoom() {
+    public String getRoom() {
         return room;
     }
 
-    public void setRoom(Room room) {
+    public void setRoom(String room) {
         this.room = room;
     }
 }

@@ -1,27 +1,38 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class Room {
-    private int number;
-    private RoomType type;
+    private String number;
+    private String type;
     private double price;
 
-    public Room(int number, RoomType type, double price) {
+    public Room(String number, String type, double price) throws SQLException {
         setNumber(number);
         setType(type);
         setPrice(price);
+        Connection connection = DatabaseManager.getConnection();
+        String sql = "INSERT INTO room (number, type, price) VALUES (?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, number);
+        preparedStatement.setString(2, type);
+        preparedStatement.setString(3, String.valueOf(price));
+        preparedStatement.executeUpdate();
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
-    public RoomType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(RoomType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
