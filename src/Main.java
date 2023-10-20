@@ -79,6 +79,43 @@ public class Main {
 
                     resultSet.close();
                     statement.close();
+                case 5:
+                    String reservationSql = "SELECT * FROM reservation";
+                    PreparedStatement reservationStatement = connection.prepareStatement(reservationSql);
+                    ResultSet reservationResultSet = reservationStatement.executeQuery();
+
+                    System.out.println("Lista de reservas:");
+                    while (reservationResultSet.next()) {
+                        int reservationId = reservationResultSet.getInt("reservation_id");
+                        String reservationIn = String.valueOf(reservationResultSet.getDate("checkin_date"));
+                        String reservationOut = String.valueOf(reservationResultSet.getDate("checkout_date"));
+                        String reservationRoom = reservationResultSet.getString("room");
+                        String reservationStatus = reservationResultSet.getString("room");
+
+                        System.out.println("Reserva " + reservationId + ": " + reservationIn + ", " + reservationOut + ", " + reservationRoom + ", " + reservationStatus);
+                        System.out.println();
+                    }
+
+                    reservationResultSet.close();
+                    reservationStatement.close();
+                case 6:
+                    String roomSql = "SELECT * FROM room";
+                    PreparedStatement roomStatement = connection.prepareStatement(roomSql);
+                    ResultSet roomResultSet = roomStatement.executeQuery();
+
+                    System.out.println("Lista de quartos:");
+                    while (roomResultSet.next()) {
+                        int roomId = roomResultSet.getInt("room_id");
+                        String roomFoundNumber = roomResultSet.getString("number");
+                        String roomFoundType = roomResultSet.getString("type");
+                        String roomFoundPrice = String.valueOf(roomResultSet.getFloat("price"));
+
+                        System.out.println("Quarto " + roomId + ": " + roomFoundNumber + ", " + roomFoundType + ", " + roomFoundPrice);
+                        System.out.println();
+                    }
+
+                    roomResultSet.close();
+                    roomStatement.close();
 
                 case 7:
                     System.out.println("Encerrando o programa.");
