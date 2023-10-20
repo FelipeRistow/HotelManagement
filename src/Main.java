@@ -1,3 +1,6 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.Scanner;
 import java.sql.SQLException;
@@ -5,13 +8,17 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) throws SQLException {
         Scanner scanner = new Scanner(System.in);
+        Connection connection = DatabaseManager.getConnection();
 
         while (true) {
             System.out.println("Menu Principal");
             System.out.println("1. Criar um Cliente");
             System.out.println("2. Criar uma Reserva");
-            System. out.println("3. Criar um Quarto");
-            System.out.println("4. Sair");
+            System.out.println("3. Criar um Quarto");
+            System.out.println("4. Listar Clientes");
+            System.out.println("5. Listar Reservas");
+            System.out.println("6. Listar Quartos");
+            System.out.println("7. Sair");
 
             System.out.print("Digite sua escolha: ");
             int choice = scanner.nextInt();
@@ -23,7 +30,7 @@ public class Main {
                     String clientName = scanner.nextLine();
                     System.out.print("E-mail do cliente: ");
                     String clientEmail = scanner.nextLine();
-                    System.out.print("E-mail do cliente: ");
+                    System.out.print("Telefone do cliente: ");
                     String clientPhone = scanner.nextLine();
                     Client client = new Client(clientName, clientEmail, clientPhone);
                     System.out.println("Cliente criado.");
@@ -55,6 +62,25 @@ public class Main {
                     break;
 
                 case 4:
+                    String sql = "SELECT * FROM client";
+                    PreparedStatement statement = connection.prepareStatement(sql);
+                    ResultSet resultSet = statement.executeQuery();
+
+                    System.out.println("Lista de clientes:");
+                    while (resultSet.next()) {
+                        int clientId = resultSet.getInt("client_id");
+                        String clientFoundName = resultSet.getString("name");
+                        String clientFoundEmail = resultSet.getString("email");
+                        String clientFoundPhone = resultSet.getString("phone");
+
+                        System.out.println("Cliente " + clientId + ": " + clientFoundName + ", " + clientFoundEmail + ", " + clientFoundPhone);
+                        System.out.println();
+                    }
+
+                    resultSet.close();
+                    statement.close();
+
+                case 7:
                     System.out.println("Encerrando o programa.");
                     scanner.close();
                     DatabaseManager.closeConnection();
