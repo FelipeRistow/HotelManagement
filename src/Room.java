@@ -16,7 +16,7 @@ public class Room {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, number);
         preparedStatement.setString(2, type);
-        preparedStatement.setString(3, String.valueOf(price));
+        preparedStatement.setFloat(3, (float) price);
         preparedStatement.executeUpdate();
     }
 

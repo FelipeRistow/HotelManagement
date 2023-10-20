@@ -50,7 +50,6 @@ public class Main {
                 case 3:
                     System.out.print("Número do quarto: ");
                     String roomNumber = scanner.nextLine();
-                    scanner.nextLine();
                     System.out.print("Tipo do quarto: ");
                     String roomType = scanner.nextLine();
                     System.out.print("Preço do quarto: ");

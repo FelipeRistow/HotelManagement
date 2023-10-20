@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -18,8 +19,8 @@ public class Reservation {
         Connection connection = DatabaseManager.getConnection();
         String sql = "INSERT INTO reservation (checkin_date, checkout_date, room, status) VALUES (?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, String.valueOf(checkInDate));
-        preparedStatement.setString(2, String.valueOf(checkOutDate));
+        preparedStatement.setDate(1, Date.valueOf(checkInDate));
+        preparedStatement.setDate(2, Date.valueOf(checkOutDate));
         preparedStatement.setString(3, room);
         preparedStatement.setString(4, "CONFIRMED");
         preparedStatement.executeUpdate();
