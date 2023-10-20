@@ -37,9 +37,9 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.print("Data de check-in (dd/mm/aaaa): ");
+                    System.out.print("Data de check-in (aaaa-mm-dd): ");
                     LocalDate checkInDate = LocalDate.parse(scanner.nextLine());
-                    System.out.print("Data de check-out (dd/mm/aaaa): ");
+                    System.out.print("Data de check-out (aaaa-mm-dd): ");
                     LocalDate checkOutDate = LocalDate.parse(scanner.nextLine());
                     System.out.print("Número do quarto: ");
                     String roomSelected = scanner.nextLine();
@@ -57,8 +57,6 @@ public class Main {
                     double roomPrice = scanner.nextDouble();
                     Room room = new Room(roomNumber, roomType, roomPrice);
                     System.out.println("Quarto criado.");
-                    // Save the room instance to the database
-                    // Database.saveRoom(room);
                     break;
 
                 case 4:
@@ -69,9 +67,9 @@ public class Main {
                     System.out.println("Lista de clientes:");
                     while (resultSet.next()) {
                         int clientId = resultSet.getInt("client_id");
-                        String clientFoundName = resultSet.getString("name");
-                        String clientFoundEmail = resultSet.getString("email");
-                        String clientFoundPhone = resultSet.getString("phone");
+                        String clientFoundName = resultSet.getString("name").strip();
+                        String clientFoundEmail = resultSet.getString("email").strip();
+                        String clientFoundPhone = resultSet.getString("phone").strip();
 
                         System.out.println("Cliente " + clientId + ": " + clientFoundName + ", " + clientFoundEmail + ", " + clientFoundPhone);
                         System.out.println();
@@ -79,6 +77,7 @@ public class Main {
 
                     resultSet.close();
                     statement.close();
+                    break;
                 case 5:
                     String reservationSql = "SELECT * FROM reservation";
                     PreparedStatement reservationStatement = connection.prepareStatement(reservationSql);
@@ -87,10 +86,10 @@ public class Main {
                     System.out.println("Lista de reservas:");
                     while (reservationResultSet.next()) {
                         int reservationId = reservationResultSet.getInt("reservation_id");
-                        String reservationIn = String.valueOf(reservationResultSet.getDate("checkin_date"));
-                        String reservationOut = String.valueOf(reservationResultSet.getDate("checkout_date"));
-                        String reservationRoom = reservationResultSet.getString("room");
-                        String reservationStatus = reservationResultSet.getString("room");
+                        String reservationIn = String.valueOf(reservationResultSet.getDate("checkin_date")).strip();
+                        String reservationOut = String.valueOf(reservationResultSet.getDate("checkout_date")).strip();
+                        String reservationRoom = reservationResultSet.getString("room").strip();
+                        String reservationStatus = reservationResultSet.getString("room").strip();
 
                         System.out.println("Reserva " + reservationId + ": " + reservationIn + ", " + reservationOut + ", " + reservationRoom + ", " + reservationStatus);
                         System.out.println();
@@ -98,6 +97,7 @@ public class Main {
 
                     reservationResultSet.close();
                     reservationStatement.close();
+                    break;
                 case 6:
                     String roomSql = "SELECT * FROM room";
                     PreparedStatement roomStatement = connection.prepareStatement(roomSql);
@@ -106,9 +106,9 @@ public class Main {
                     System.out.println("Lista de quartos:");
                     while (roomResultSet.next()) {
                         int roomId = roomResultSet.getInt("room_id");
-                        String roomFoundNumber = roomResultSet.getString("number");
-                        String roomFoundType = roomResultSet.getString("type");
-                        String roomFoundPrice = String.valueOf(roomResultSet.getFloat("price"));
+                        String roomFoundNumber = roomResultSet.getString("number").strip();
+                        String roomFoundType = roomResultSet.getString("type").strip();
+                        String roomFoundPrice = String.valueOf(roomResultSet.getFloat("price")).strip();
 
                         System.out.println("Quarto " + roomId + ": " + roomFoundNumber + ", " + roomFoundType + ", " + roomFoundPrice);
                         System.out.println();
@@ -116,7 +116,7 @@ public class Main {
 
                     roomResultSet.close();
                     roomStatement.close();
-
+                    break;
                 case 7:
                     System.out.println("Encerrando o programa.");
                     scanner.close();
