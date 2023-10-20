@@ -16,7 +16,7 @@ public class Reservation {
         setRoom(room);
         setStatus("CONFIRMED");
         Connection connection = DatabaseManager.getConnection();
-        String sql = "INSERT INTO reservation (checkin_date, checkout_date, status) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO reservation (checkin_date, checkout_date, room, status) VALUES (?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, String.valueOf(checkInDate));
         preparedStatement.setString(2, String.valueOf(checkOutDate));
